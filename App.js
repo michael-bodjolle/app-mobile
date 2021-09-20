@@ -6,6 +6,8 @@ import Blockone from "./componants/blockone";
 import Blockimage from "./componants/blockimage";
 import Header from "./componants/header";
 import { MaterialCommunityIcons } from '@expo/vector-icons';
+import Inscription from "./Inscription";
+import Connexion from "./Connexion";
 
 function HomeScreen() {
   return (<ScrollView  >
@@ -41,16 +43,12 @@ const styles = StyleSheet.create({
 
 function ConnexionScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Connexion!</Text>
-    </View>
+    <Connexion/>
   );
 }
 function InscriptionScreen() {
   return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Inscription!</Text>
-    </View>
+    <Inscription/>
   );
 }
 function AProposScreen() {

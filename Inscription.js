@@ -1,26 +1,176 @@
-import React from "react";
-import { Text, View } from "react-native";
+import React, {useState} from "react";
+import {
+  StyledContainer,
+  InnerContainer,
+  PageLogo,
+  PageTitle,
+  SubTitle,
+  StyledFormArea,
+  LeftIcon,
+  StyledInputLabel,
+  StyledTextInput,
+  RightIcon,
+  StyledButton,
+  ButtonText,
+  Colors,
+  MsgBox,
+  Line,
+  ExtraView,
+  ExtraText,
+  TextLink,
+  TextLinkContent
+} from "./componants/styles"
+import {View, TouchableOpacity} from "react-native";
+import {StatusBar} from 'expo-status-bar';
 
-const Blockone = () => {
+//formik
+import {Formik} from "formik";
+
+//icons
+import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons';
+
+//Couleurs
+const {brand, darkLight, primary} = Colors;
+
+const Signup = (navigation) => {
+  const [hidePassword, setHidePassword] = useState(true);
+  const [show, setShow] = useState(false);
+  const [date, setDate] = useState(new Date(2000, 0, 1));
+
+  //Vrai date de naissance à envoyer
+  const [dob, setDob] = useState();
+
+  const onChange = (event, selectedDate) => {
+    const currentDate = selectedDate || date;
+    setShow(false);
+    setDate(currentDate);
+    setDob(currentDate);
+  }
+
+  const showDatePicker = () => {
+    setShow(true);
+  }
   return (
-    <View
-    style={{alignItems:"center"}}
-    
-    >
-      <Text style={{
-        
-        backgroundColor: "white",
-        width: 280,
-        height: 190,
-        padding:15
-      }}>
-       
-        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Non morbi et,
-        ultricies in odio libero hendrerit mauris. pour en savoir plus cliquer
-        
-      </Text>
-    </View>
+      <StyledContainer>
+        <StatusBar style="dark"/>
+        <InnerContainer>
+          {/*<PageLogo resizeMode="cover" source={require('./../assets/img/expo-bg1.png')}/>*/}
+          <PageTitle>DEVENTCE</PageTitle>
+
+          {show && (
+              <DateTimePicker
+                  testID="dateTimePicker"
+                  value={date}
+                  mode='date'
+                  is24Hour={true}
+                  display="default"
+                  onChange={onChange}
+              />
+          )}
+
+          <Formik initialValues={{fullName: '', email: '', dateOfBirth: '', password: '', confirmPassword: ''}}
+                  onSubmit={(values) => {
+                    console.log(values);
+                  }}>
+            {({handleChange, handleBlur, handleSubmit, values}) => (<StyledFormArea>
+              <MyTextInput
+                  icon="person"
+                  placeholder="Prénom et nom"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('fullName')}
+                  onBlur={handleBlur('fullName')}
+                  value={values.fullName}
+              />
+
+              <MyTextInput
+                  icon="mail"
+                  placeholder="Adresse email"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('email')}
+                  onBlur={handleBlur('email')}
+                  value={values.email}
+                  keyboardType="email-address"
+              />
+
+              {/*<MyTextInput
+                            label="Date de naissance"
+                            icon="calendar"
+                            placeholder="JJ - MM - AAAA"
+                            placeholderTextColor={darkLight}
+                            onChangeText={handleChange('dateOfBirth')}
+                            onBlur={handleBlur('dateOfBirth')}
+                            value={dob ? dob.toDateString() : ''}
+                            isDate={true}
+                            editable={false}
+                            showDatePicker={showDatePicker}
+                        />*/}
+              <MyTextInput
+                  placeholder="Mot de passe"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('password')}
+                  onBlur={handleBlur('password')}
+                  value={values.password}
+                  secureTextEntry={hidePassword}
+                  icon="lock"
+                  isPassword={true}
+                  hidePassword={hidePassword}
+                  setHidePassword={setHidePassword}
+              />
+
+              <MyTextInput
+                  placeholder="Confirmez le mot de passe"
+                  placeholderTextColor={darkLight}
+                  onChangeText={handleChange('confirmPassword')}
+                  onBlur={handleBlur('confirmPassword')}
+                  value={values.confirmPassword}
+                  secureTextEntry={hidePassword}
+                  icon="lock"
+                  isPassword={true}
+                  hidePassword={hidePassword}
+                  setHidePassword={setHidePassword}
+              />
+
+              {/*<MsgBox>...</MsgBox>*/}
+
+              <StyledButton onPress={handleSubmit}>
+                <ButtonText>Inscription</ButtonText>
+              </StyledButton>
+
+              <ExtraView>
+                <ExtraText>Déjà inscrit ? </ExtraText>
+                <TextLink>
+                  <TextLinkContent>Se connecter</TextLinkContent>
+                </TextLink>
+              </ExtraView>
+            </StyledFormArea>)}
+          </Formik>
+        </InnerContainer>
+      </StyledContainer>
   );
 };
 
-export default Blockone;
+const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, ...props}) => {
+  return (
+      <View>
+        <LeftIcon>
+          <Octicons name={icon} size={30} color={primary}/>
+        </LeftIcon>
+        <StyledInputLabel>{label}</StyledInputLabel>
+        {!isDate && <StyledTextInput {...props} />}
+        {isDate && <TouchableOpacity onPress={showDatePicker}>
+          <StyledTextInput {...props} />
+        </TouchableOpacity>}
+        {isPassword && (
+            <RightIcon
+                onPress={() => {
+                  setHidePassword(!hidePassword);
+                }}
+            >
+              <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight}/>
+            </RightIcon>
+        )}
+      </View>
+  );
+};
+
+export default Signup;
