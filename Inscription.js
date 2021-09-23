@@ -57,17 +57,6 @@ const Signup = (navigation) => {
           {/*<PageLogo resizeMode="cover" source={require('./../assets/img/expo-bg1.png')}/>*/}
           <PageTitle>DEVENTCE</PageTitle>
 
-          {show && (
-              <DateTimePicker
-                  testID="dateTimePicker"
-                  value={date}
-                  mode='date'
-                  is24Hour={true}
-                  display="default"
-                  onChange={onChange}
-              />
-          )}
-
           <Formik initialValues={{fullName: '', email: '', dateOfBirth: '', password: '', confirmPassword: ''}}
                   onSubmit={(values) => {
                     console.log(values);
@@ -91,19 +80,6 @@ const Signup = (navigation) => {
                   value={values.email}
                   keyboardType="email-address"
               />
-
-              {/*<MyTextInput
-                            label="Date de naissance"
-                            icon="calendar"
-                            placeholder="JJ - MM - AAAA"
-                            placeholderTextColor={darkLight}
-                            onChangeText={handleChange('dateOfBirth')}
-                            onBlur={handleBlur('dateOfBirth')}
-                            value={dob ? dob.toDateString() : ''}
-                            isDate={true}
-                            editable={false}
-                            showDatePicker={showDatePicker}
-                        />*/}
               <MyTextInput
                   placeholder="Mot de passe"
                   placeholderTextColor={darkLight}

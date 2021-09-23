@@ -96,7 +96,7 @@ export const StyledButton = styled.TouchableOpacity`
     border-radius : 5px;
     margin-vertical : 5px;
     height: 60px;
-    `;
+`;
 
 export const ButtonText = styled.Text`
     color: ${primary};
