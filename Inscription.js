@@ -112,7 +112,12 @@ const Signup = (navigation) => {
                 <ButtonText>Inscription</ButtonText>
               </StyledButton>
 
-
+              <ExtraView>
+                <ExtraText>Déjà inscrit ? </ExtraText>
+                <TextLink>
+                  <TextLinkContent>Se connecter</TextLinkContent>
+                </TextLink>
+              </ExtraView>
             </StyledFormArea>)}
           </Formik>
         </InnerContainer>

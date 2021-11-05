@@ -82,12 +82,12 @@ function MyTabs() {
             <MaterialCommunityIcons name="account" color={color} size={size} />
           ),
         }} />
-      { <Tab.Screen name="Inscription" component={InscriptionScreen} options={{
+      {/* <Tab.Screen name="Inscription" component={InscriptionScreen} options={{
           tabBarLabel: 'Inscription',
           tabBarIcon: ({ color, size }) => (
             <MaterialCommunityIcons name="home" color={color} size={size} />
           ),
-        }} /> }
+        }} /> */}
       <Tab.Screen name="A propos de nous" component={AProposScreen} options={{
           tabBarLabel: 'A propos de nous ',
           tabBarIcon: ({ color, size }) => (
