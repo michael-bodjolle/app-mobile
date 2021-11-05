@@ -74,12 +74,6 @@ const Login = ({navigation}) => {
               <StyledButton onPress={handleSubmit}>
                 <ButtonText>Connexion</ButtonText>
               </StyledButton>
-              <ExtraView>
-                <ExtraText>Pas déjà inscrit ? </ExtraText>
-                <TextLink>
-                  <TextLinkContent>Inscription</TextLinkContent>
-                </TextLink>
-              </ExtraView>
             </StyledFormArea>)}
           </Formik>
         </InnerContainer>
