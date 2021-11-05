@@ -64,7 +64,7 @@ const Signup = (navigation) => {
             {({handleChange, handleBlur, handleSubmit, values}) => (<StyledFormArea>
               <MyTextInput
                   icon="person"
-                  placeholder="Prénom et nom"
+                  placeholder="Prénom"
                   placeholderTextColor={darkLight}
                   onChangeText={handleChange('fullName')}
                   onBlur={handleBlur('fullName')}
