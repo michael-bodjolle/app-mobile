@@ -15,19 +15,25 @@ import Header from "./componants/header";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import Inscription from "./Inscription";
 import Connexion from "./Connexion";
+import { getall } from "./services/EventAPI";
 
 function HomeScreen(props) {
+  const [events, setEvents] = React.useState([]);
+
+  React.useEffect(() => {
+    getall().then((res) => {
+      setEvents(res);
+      console.log(events);
+    });
+  }, [props]);
   return (
     <ScrollView>
       <View style={styles.container}>
         <Header />
         <Blockone />
-
-        <Blockimage />
-        <Blockimage />
-        <Blockimage />
-        <Blockimage />
-        <Blockimage />
+        {events.map((event, index) => {
+          return <Blockimage key={index} title={event.nom_event}/>;
+        })}
       </View>
     </ScrollView>
   );
