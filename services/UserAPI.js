@@ -14,7 +14,7 @@ function create(name, firstname,email,password) {
 function update(values) {
   const iduser = window.localStorage.getItem('id');
 	return axios.put(`${URL_USERS}/${iduser}`,values).then((res) => res.data);
-  
+ 
 }
 
 
