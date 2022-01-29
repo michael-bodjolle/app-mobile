@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import {
   StyledContainer,
   InnerContainer,
@@ -18,134 +18,207 @@ import {
   ExtraView,
   ExtraText,
   TextLink,
-  TextLinkContent
-} from "./componants/styles"
-import {View, TouchableOpacity} from "react-native";
-import {StatusBar} from 'expo-status-bar';
+  TextLinkContent,
+} from "./componants/styles";
+import { View, ScrollView, TouchableOpacity } from "react-native";
+import { StatusBar } from "expo-status-bar";
+import { create } from "./services/UserAPI";
+import { NavigationActions } from "react-navigation";
 
 //formik
-import {Formik} from "formik";
+import { Formik } from "formik";
 
 //icons
-import {Octicons, Ionicons, Fontisto} from '@expo/vector-icons';
+import { Octicons, Ionicons, Fontisto } from "@expo/vector-icons";
 
 //Couleurs
-const {brand, darkLight, primary} = Colors;
+const { brand, darkLight, primary } = Colors;
 
-const Signup = (navigation) => {
+const Signup = (props) => {
+  console.log(props);
   const [hidePassword, setHidePassword] = useState(true);
-  const [show, setShow] = useState(false);
-  const [date, setDate] = useState(new Date(2000, 0, 1));
+  // const [show, setShow] = useState(false);
+  // const [date, setDate] = useState(new Date(2000, 0, 1));
 
   //Vrai date de naissance à envoyer
-  const [dob, setDob] = useState();
+  const [values, setValues] = useState({
+    name: "",
+    firstname: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
+  });
+  console.log(values);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate || date;
-    setShow(false);
-    setDate(currentDate);
-    setDob(currentDate);
-  }
+  // const [alert, setAlert] = useState({ isOpen: false, type: '', message: '' })
 
-  const showDatePicker = () => {
-    setShow(true);
-  }
+  // const handleChange = (e) => {
+  //   console.log(e);
+  //   // setValues({ ...values, [prop]: event.target.value });
+  // };
+
+  const handleSubmit = async (event) => {
+    // event.preventDefault();
+    try {
+      console.log(values);
+      if (
+        values.name.length > 0 &&
+        values.firstname.length > 0 &&
+        values.email.length > 0 &&
+        values.password.length > 0
+      ) {
+        console.log("test");
+        const data = create(
+          values.name,
+          values.firstname,
+          values.email,
+          values.password
+        );
+
+        const routeName = "Connexion";
+        props.props.navigation.navigate(routeName);
+        //   console.log(data);
+        //   // setInfoUser(values);
+      }
+      // else {
+      //   setAlert({ isOpen: true, type: 'error', message: 'Veuillez remplir tous les champs' })
+      // }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   return (
+    <ScrollView>
       <StyledContainer>
-        <StatusBar style="dark"/>
+        <StatusBar style="dark" />
+
         <InnerContainer>
           {/*<PageLogo resizeMode="cover" source={require('./../assets/img/expo-bg1.png')}/>*/}
           <PageTitle>DEVENTCE</PageTitle>
 
-          <Formik initialValues={{fullName: '', email: '', dateOfBirth: '', password: '', confirmPassword: ''}}
-                  onSubmit={(values) => {
-                    console.log(values);
-                  }}>
-            {({handleChange, handleBlur, handleSubmit, values}) => (<StyledFormArea>
-              <MyTextInput
+          <Formik onSubmit={handleSubmit}>
+            {({ handleBlur }) => (
+              <StyledFormArea>
+                <MyTextInput
                   icon="person"
-                  placeholder="Prénom"
+                  placeholder="Nom"
                   placeholderTextColor={darkLight}
-                  onChangeText={handleChange('fullName')}
-                  onBlur={handleBlur('fullName')}
-                  value={values.fullName}
-              />
+                  onChangeText={(e) => {
+                    console.log(values);
+                    setValues({ ...values, name: e });
+                    console.log(e);
+                  }}
+                  onBlur={handleBlur("name")}
+                />
+                <MyTextInput
+                  icon="person"
+                  placeholder="Prenom"
+                  placeholderTextColor={darkLight}
+                  onChangeText={(e) => {
+                    setValues({ ...values, firstname: e });
+                    console.log(e);
+                  }}
+                  onBlur={handleBlur("firstname")}
+                />
 
-              <MyTextInput
+                <MyTextInput
                   icon="mail"
                   placeholder="Adresse email"
                   placeholderTextColor={darkLight}
-                  onChangeText={handleChange('email')}
-                  onBlur={handleBlur('email')}
-                  value={values.email}
+                  onChangeText={(e) => {
+                    setValues({ ...values, email: e });
+                    console.log(e);
+                  }}
+                  onBlur={handleBlur("mail")}
                   keyboardType="email-address"
-              />
-              <MyTextInput
+                />
+                <MyTextInput
                   placeholder="Mot de passe"
                   placeholderTextColor={darkLight}
-                  onChangeText={handleChange('password')}
-                  onBlur={handleBlur('password')}
-                  value={values.password}
+                  onChangeText={(e) => {
+                    setValues({ ...values, password: e });
+                    console.log(e);
+                  }}
+                  onBlur={handleBlur("password")}
                   secureTextEntry={hidePassword}
                   icon="lock"
                   isPassword={true}
                   hidePassword={hidePassword}
                   setHidePassword={setHidePassword}
-              />
+                />
 
-              <MyTextInput
+                <MyTextInput
                   placeholder="Confirmez le mot de passe"
                   placeholderTextColor={darkLight}
-                  onChangeText={handleChange('confirmPassword')}
-                  onBlur={handleBlur('confirmPassword')}
-                  value={values.confirmPassword}
+                  onChangeText={(e) => {
+                    setValues({ ...values, confirmPassword: e });
+                  }}
+                  onBlur={handleBlur("confirmPassword")}
                   secureTextEntry={hidePassword}
                   icon="lock"
                   isPassword={true}
                   hidePassword={hidePassword}
                   setHidePassword={setHidePassword}
-              />
+                />
 
-              {/*<MsgBox>...</MsgBox>*/}
+                {/*<MsgBox>...</MsgBox>*/}
 
-              <StyledButton onPress={handleSubmit}>
-                <ButtonText>Inscription</ButtonText>
-              </StyledButton>
+                <StyledButton onPress={handleSubmit}>
+                  <ButtonText>Inscription</ButtonText>
+                </StyledButton>
 
-              <ExtraView>
-                <ExtraText>Déjà inscrit ? </ExtraText>
-                <TextLink>
-                  <TextLinkContent>Se connecter</TextLinkContent>
-                </TextLink>
-              </ExtraView>
-            </StyledFormArea>)}
+                <ExtraView>
+                  <ExtraText>Déjà inscrit ? </ExtraText>
+                  <TextLink>
+                    <TextLinkContent>Se connecter</TextLinkContent>
+                  </TextLink>
+                </ExtraView>
+              </StyledFormArea>
+            )}
           </Formik>
         </InnerContainer>
       </StyledContainer>
+    </ScrollView>
   );
 };
 
-const MyTextInput = ({label, icon, isPassword, hidePassword, setHidePassword, isDate, showDatePicker, ...props}) => {
+const MyTextInput = ({
+  label,
+  icon,
+  isPassword,
+  hidePassword,
+  setHidePassword,
+  isDate,
+  showDatePicker,
+  ...props
+}) => {
   return (
-      <View>
-        <LeftIcon>
-          <Octicons name={icon} size={30} color={primary}/>
-        </LeftIcon>
-        <StyledInputLabel>{label}</StyledInputLabel>
-        {!isDate && <StyledTextInput {...props} />}
-        {isDate && <TouchableOpacity onPress={showDatePicker}>
+    <View>
+      <LeftIcon>
+        <Octicons name={icon} size={30} color={primary} />
+      </LeftIcon>
+      <StyledInputLabel>{label}</StyledInputLabel>
+      {!isDate && <StyledTextInput {...props} />}
+      {isDate && (
+        <TouchableOpacity onPress={showDatePicker}>
           <StyledTextInput {...props} />
-        </TouchableOpacity>}
-        {isPassword && (
-            <RightIcon
-                onPress={() => {
-                  setHidePassword(!hidePassword);
-                }}
-            >
-              <Ionicons name={hidePassword ? 'md-eye-off' : 'md-eye'} size={30} color={darkLight}/>
-            </RightIcon>
-        )}
-      </View>
+        </TouchableOpacity>
+      )}
+      {isPassword && (
+        <RightIcon
+          onPress={() => {
+            setHidePassword(!hidePassword);
+          }}
+        >
+          <Ionicons
+            name={hidePassword ? "md-eye-off" : "md-eye"}
+            size={30}
+            color={darkLight}
+          />
+        </RightIcon>
+      )}
+    </View>
   );
 };
 
