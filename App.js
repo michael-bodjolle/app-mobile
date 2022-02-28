@@ -34,6 +34,8 @@ function HomeScreen(props) {
         {events.map((event, index) => {
           return <Blockimage key={index} title={event.nom_event}/>;
         })}
+        {/* <Blockimage /> */}
+        
       </View>
     </ScrollView>
   );
