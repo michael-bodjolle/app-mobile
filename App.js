@@ -73,7 +73,7 @@ function MyTabs() {
       }}
     >
       <Tab.Screen
-        name="Acceuil"
+        name="Accueil"
         component={HomeScreen}
         options={{
           tabBarLabel: "Accueil",
@@ -102,7 +102,7 @@ function MyTabs() {
           ),
         }}
       />
-      <Tab.Screen
+      {/* <Tab.Screen
         name="A propos de nous"
         component={AProposScreen}
         options={{
@@ -115,7 +115,7 @@ function MyTabs() {
             />
           ),
         }}
-      />
+      /> */}
     </Tab.Navigator>
   );
 }
